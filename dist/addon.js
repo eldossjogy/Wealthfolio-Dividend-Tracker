@@ -22619,7 +22619,7 @@ var SizeDetectorContainer = /* @__PURE__ */ React.forwardRef((_ref2, ref) => {
     height: calculatedHeight
   }, children)));
 });
-var ResponsiveContainer$1 = /* @__PURE__ */ React.forwardRef((props, ref) => {
+var ResponsiveContainer = /* @__PURE__ */ React.forwardRef((props, ref) => {
   var responsiveContainerContext = useResponsiveContainerContext();
   if (isPositiveNumber(responsiveContainerContext.width) && isPositiveNumber(responsiveContainerContext.height)) {
     return props.children;
@@ -51068,7 +51068,7 @@ var ChartContainer$1 = React.forwardRef(({ id: id2, className, children, config:
       ...props,
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(ChartStyle$1, { id: chartId, config: config2 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer$1, { children })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { children })
       ]
     }
   ) });
@@ -55766,7 +55766,7 @@ var ChartContainer = React.forwardRef(({ id: id2, className, children, config: c
       ...props,
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(ChartStyle, { id: chartId, config: config2 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer$1, { children })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { children })
       ]
     }
   ) });
@@ -56049,10 +56049,10 @@ function DividendsByYear({
         /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { children: "Dividends by Year" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(CardDescription, { children: "Total dividends collected per year across all accounts" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "px-4 pt-0 pb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "px-4 pt-0 md:px-6 flex flex-col", style: { maxHeight: "70vh" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         ChartContainer$1,
         {
-          className: "min-h-[300px] w-full",
+          className: "flex-1 w-full overflow-hidden",
           config: chartConfig,
           children: /* @__PURE__ */ jsxRuntimeExports.jsxs(ComposedChart, { data: chartData, margin: { left: 8, right: 8, top: 8, bottom: 8 }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: CHART_GRADIENTS$1.map((gradient) => /* @__PURE__ */ jsxRuntimeExports.jsxs("linearGradient", { id: gradient.id, x1: "0", y1: "0", x2: "0", y2: "1", children: [
@@ -56298,7 +56298,7 @@ function DividendsByMonth({
           selectedYear
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "px-4 pt-0 pb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChartContainer$1, { className: "min-h-[300px] w-full", config: chartConfig, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(ComposedChart, { data: chartData, margin: { left: 8, right: 8, top: 8, bottom: 8 }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "px-4 pt-0 md:px-6 flex flex-col", style: { maxHeight: "70vh" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChartContainer$1, { className: "flex-1 w-full overflow-hidden", config: chartConfig, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(ComposedChart, { data: chartData, margin: { left: 8, right: 8, top: 8, bottom: 8 }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: CHART_GRADIENTS.map((gradient) => /* @__PURE__ */ jsxRuntimeExports.jsxs("linearGradient", { id: gradient.id, x1: "0", y1: "0", x2: "0", y2: "1", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("stop", { offset: "0%", stopColor: gradient.start, stopOpacity: 0.9 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("stop", { offset: "100%", stopColor: gradient.end, stopOpacity: 0.9 })

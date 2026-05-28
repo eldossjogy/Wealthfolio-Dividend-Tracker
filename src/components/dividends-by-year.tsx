@@ -128,9 +128,9 @@ export function DividendsByYear({
           <CardTitle>Dividends by Year</CardTitle>
           <CardDescription>Total dividends collected per year across all accounts</CardDescription>
         </CardHeader>
-        <CardContent className="px-4 pt-0 pb-6">
+        <CardContent className="px-4 pt-0 md:px-6 flex flex-col" style={{ maxHeight: '70vh' }}>
           <ChartContainer
-            className="min-h-[300px] w-full"
+            className="flex-1 w-full overflow-hidden"
             config={chartConfig}
           >
             <ComposedChart data={chartData} margin={{ left: 8, right: 8, top: 8, bottom: 8 }}>

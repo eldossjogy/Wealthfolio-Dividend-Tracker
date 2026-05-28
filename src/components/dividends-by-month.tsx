@@ -154,8 +154,8 @@ export function DividendsByMonth({
             <CardTitle>Dividends by Month</CardTitle>
             <CardDescription>Monthly dividends for {selectedYear}</CardDescription>
           </CardHeader>
-          <CardContent className="px-4 pt-0 pb-6">
-            <ChartContainer className="min-h-[300px] w-full" config={chartConfig}>
+          <CardContent className="px-4 pt-0 md:px-6 flex flex-col" style={{ maxHeight: '70vh' }}>
+            <ChartContainer className="flex-1 w-full overflow-hidden" config={chartConfig}>
               <ComposedChart data={chartData} margin={{ left: 8, right: 8, top: 8, bottom: 8 }}>
                 <defs>
                   {CHART_GRADIENTS.map((gradient) => (
