@@ -147,7 +147,7 @@ export function DividendsByMonth({
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
+    <div className="grid gap-4 md:grid-cols-[2fr_1fr] grid-cols-1">
         {/* Chart */}
         <Card>
           <CardHeader>
