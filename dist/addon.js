@@ -28444,7 +28444,7 @@ var MAX_DIGITS = 1e9, defaults = {
   // The natural logarithm of 10.
   // 115 digits
   LN10: "2.302585092994045684017991454684364207601101488628772976033327900967572609677352480235997205089598298341967784042286"
-}, Decimal$1, external = true, decimalError = "[DecimalError] ", invalidArgument = decimalError + "Invalid argument: ", exponentOutOfRange = decimalError + "Exponent out of range: ", mathfloor = Math.floor, mathpow = Math.pow, isDecimal = /^(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i, ONE, BASE = 1e7, LOG_BASE = 7, MAX_SAFE_INTEGER = 9007199254740991, MAX_E = mathfloor(MAX_SAFE_INTEGER / LOG_BASE), P = {};
+}, Decimal, external = true, decimalError = "[DecimalError] ", invalidArgument = decimalError + "Invalid argument: ", exponentOutOfRange = decimalError + "Exponent out of range: ", mathfloor = Math.floor, mathpow = Math.pow, isDecimal = /^(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i, ONE, BASE = 1e7, LOG_BASE = 7, MAX_SAFE_INTEGER = 9007199254740991, MAX_E = mathfloor(MAX_SAFE_INTEGER / LOG_BASE), P = {};
 P.absoluteValue = P.abs = function() {
   var x2 = new this.constructor(this);
   if (x2.s) x2.s = 1;
@@ -29368,20 +29368,20 @@ function config(obj) {
   }
   return this;
 }
-var Decimal$1 = clone(defaults);
-ONE = new Decimal$1(1);
-const Decimal = Decimal$1;
+var Decimal = clone(defaults);
+ONE = new Decimal(1);
+const Decimal$1 = Decimal;
 function getDigitCount(value) {
   var result;
   if (value === 0) {
     result = 1;
   } else {
-    result = Math.floor(new Decimal(value).abs().log(10).toNumber()) + 1;
+    result = Math.floor(new Decimal$1(value).abs().log(10).toNumber()) + 1;
   }
   return result;
 }
 function rangeStep(start, end, step) {
-  var num = new Decimal(start);
+  var num = new Decimal$1(start);
   var i = 0;
   var result = [];
   while (num.lt(end) && i < 1e5) {
@@ -29401,36 +29401,36 @@ var getValidInterval = (_ref2) => {
 };
 var getFormatStep = (roughStep, allowDecimals, correctionFactor) => {
   if (roughStep.lte(0)) {
-    return new Decimal(0);
+    return new Decimal$1(0);
   }
   var digitCount = getDigitCount(roughStep.toNumber());
-  var digitCountValue = new Decimal(10).pow(digitCount);
+  var digitCountValue = new Decimal$1(10).pow(digitCount);
   var stepRatio = roughStep.div(digitCountValue);
   var stepRatioScale = digitCount !== 1 ? 0.05 : 0.1;
-  var amendStepRatio = new Decimal(Math.ceil(stepRatio.div(stepRatioScale).toNumber())).add(correctionFactor).mul(stepRatioScale);
+  var amendStepRatio = new Decimal$1(Math.ceil(stepRatio.div(stepRatioScale).toNumber())).add(correctionFactor).mul(stepRatioScale);
   var formatStep = amendStepRatio.mul(digitCountValue);
-  return allowDecimals ? new Decimal(formatStep.toNumber()) : new Decimal(Math.ceil(formatStep.toNumber()));
+  return allowDecimals ? new Decimal$1(formatStep.toNumber()) : new Decimal$1(Math.ceil(formatStep.toNumber()));
 };
 var getTickOfSingleValue = (value, tickCount, allowDecimals) => {
-  var step = new Decimal(1);
-  var middle = new Decimal(value);
+  var step = new Decimal$1(1);
+  var middle = new Decimal$1(value);
   if (!middle.isint() && allowDecimals) {
     var absVal = Math.abs(value);
     if (absVal < 1) {
-      step = new Decimal(10).pow(getDigitCount(value) - 1);
-      middle = new Decimal(Math.floor(middle.div(step).toNumber())).mul(step);
+      step = new Decimal$1(10).pow(getDigitCount(value) - 1);
+      middle = new Decimal$1(Math.floor(middle.div(step).toNumber())).mul(step);
     } else if (absVal > 1) {
-      middle = new Decimal(Math.floor(value));
+      middle = new Decimal$1(Math.floor(value));
     }
   } else if (value === 0) {
-    middle = new Decimal(Math.floor((tickCount - 1) / 2));
+    middle = new Decimal$1(Math.floor((tickCount - 1) / 2));
   } else if (!allowDecimals) {
-    middle = new Decimal(Math.floor(value));
+    middle = new Decimal$1(Math.floor(value));
   }
   var middleIndex = Math.floor((tickCount - 1) / 2);
   var ticks2 = [];
   for (var i = 0; i < tickCount; i++) {
-    ticks2.push(middle.add(new Decimal(i - middleIndex).mul(step)).toNumber());
+    ticks2.push(middle.add(new Decimal$1(i - middleIndex).mul(step)).toNumber());
   }
   return ticks2;
 };
@@ -29438,21 +29438,21 @@ var _calculateStep = function calculateStep(min2, max2, tickCount, allowDecimals
   var correctionFactor = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : 0;
   if (!Number.isFinite((max2 - min2) / (tickCount - 1))) {
     return {
-      step: new Decimal(0),
-      tickMin: new Decimal(0),
-      tickMax: new Decimal(0)
+      step: new Decimal$1(0),
+      tickMin: new Decimal$1(0),
+      tickMax: new Decimal$1(0)
     };
   }
-  var step = getFormatStep(new Decimal(max2).sub(min2).div(tickCount - 1), allowDecimals, correctionFactor);
+  var step = getFormatStep(new Decimal$1(max2).sub(min2).div(tickCount - 1), allowDecimals, correctionFactor);
   var middle;
   if (min2 <= 0 && max2 >= 0) {
-    middle = new Decimal(0);
+    middle = new Decimal$1(0);
   } else {
-    middle = new Decimal(min2).add(max2).div(2);
-    middle = middle.sub(new Decimal(middle).mod(step));
+    middle = new Decimal$1(min2).add(max2).div(2);
+    middle = middle.sub(new Decimal$1(middle).mod(step));
   }
   var belowCount = Math.ceil(middle.sub(min2).div(step).toNumber());
-  var upCount = Math.ceil(new Decimal(max2).sub(middle).div(step).toNumber());
+  var upCount = Math.ceil(new Decimal$1(max2).sub(middle).div(step).toNumber());
   var scaleCount = belowCount + upCount + 1;
   if (scaleCount > tickCount) {
     return _calculateStep(min2, max2, tickCount, allowDecimals, correctionFactor + 1);
@@ -29463,8 +29463,8 @@ var _calculateStep = function calculateStep(min2, max2, tickCount, allowDecimals
   }
   return {
     step,
-    tickMin: middle.sub(new Decimal(belowCount).mul(step)),
-    tickMax: middle.add(new Decimal(upCount).mul(step))
+    tickMin: middle.sub(new Decimal$1(belowCount).mul(step)),
+    tickMax: middle.add(new Decimal$1(upCount).mul(step))
   };
 };
 var getNiceTickValues = function getNiceTickValues2(_ref2) {
@@ -29485,7 +29485,7 @@ var getNiceTickValues = function getNiceTickValues2(_ref2) {
     tickMin,
     tickMax
   } = _calculateStep(cormin, cormax, count2, allowDecimals, 0);
-  var values = rangeStep(tickMin, tickMax.add(new Decimal(0.1).mul(step)), step);
+  var values = rangeStep(tickMin, tickMax.add(new Decimal$1(0.1).mul(step)), step);
   return min2 > max2 ? values.reverse() : values;
 };
 var getTickValuesFixedDomain = function getTickValuesFixedDomain2(_ref3, tickCount) {
@@ -29499,8 +29499,8 @@ var getTickValuesFixedDomain = function getTickValuesFixedDomain2(_ref3, tickCou
     return [cormin];
   }
   var count2 = Math.max(tickCount, 2);
-  var step = getFormatStep(new Decimal(cormax).sub(cormin).div(count2 - 1), allowDecimals, 0);
-  var values = [...rangeStep(new Decimal(cormin), new Decimal(cormax), step), cormax];
+  var step = getFormatStep(new Decimal$1(cormax).sub(cormin).div(count2 - 1), allowDecimals, 0);
+  var values = [...rangeStep(new Decimal$1(cormin), new Decimal$1(cormax), step), cormax];
   if (allowDecimals === false) {
     values = values.map((value) => Math.round(value));
   }
